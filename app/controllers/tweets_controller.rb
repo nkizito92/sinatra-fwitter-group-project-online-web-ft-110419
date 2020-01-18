@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
 
     get "/tweets" do 
         @tweets = Tweet.all
-        erb :"/tweets/tweets"
+        redirect "/tweets"
     end 
 
     get "/tweets/new" do 
@@ -10,6 +10,7 @@ class TweetsController < ApplicationController
     end 
 
     post "/tweets" do 
+        @user = User.find_by(username: params[:username])
         binding.pry
         # @tweet = Tweet.create(:content => params[:content])
         erb :"/tweets/tweets"
