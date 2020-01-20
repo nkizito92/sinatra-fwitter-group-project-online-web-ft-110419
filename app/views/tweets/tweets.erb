@@ -1,6 +1,7 @@
 Welcome, <%=current_user.username%>
 
 <%@tweets.each do |tweet|%>
-    <p><%=tweet.content%></p>
-
+    <div style="display:none;"> <%=user = User.find_by_id(tweet.id)%></div>
+    <p>Created by <%=user.username%>: <%=tweet.content%></p>
     <%end %>
+    <div>Would you like to create a <a href="/tweets/new">Tweet</a></div>
