@@ -47,15 +47,11 @@ class UsersController < ApplicationController
         redirect "/login"
     end
 
-    helpers do
-		
-		def current_user
-			User.find(session[:user_id])
-		end
+    get "/users/:id" do 
+        @user = User.find_by(username: params(:username))
+        erb :"/tweets/show_tweet/#{@user.id}"
+    end 
 
-        def logged_in?
-			!!session[:user_id]
-		end
-	end
+   
 
 end 
