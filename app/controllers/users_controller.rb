@@ -48,14 +48,9 @@ class UsersController < ApplicationController
     end
 
     get "/users/:id" do 
-        binding.pry
         @user = User.find_by(username: params(:username))
         erb :"/show/#{@user.id}"
     end 
-
-    def slug 
-        
-    end
    
 
 end 

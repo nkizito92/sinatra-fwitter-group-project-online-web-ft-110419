@@ -7,8 +7,9 @@ class TweetsController < ApplicationController
         else 
             redirect "/login"
         end
-    end 
-
+    end
+     
+# create
     get "/tweets/new" do 
         if logged_in?
             erb :"/tweets/new"
@@ -18,32 +19,51 @@ class TweetsController < ApplicationController
     end 
 
     post "/tweets" do 
-        @user = User.find_by_id(params[:id])
-        @tweet = Tweet.create(content: params[:content], user_id: params(:user_id))
-        @tweet.user_id = @user.id
-
+        
+        @tweet = Tweet.new(content: params[:content])
+        @tweet.user_id = current_user.id
+          if @tweet.content == ""
+            redirect "/tweets/new"
+          else 
+             @tweet.save
+             redirect "/tweets/#{current_user.id}"
+          end 
     end 
-
-
-
     
-    get "/tweets/:id/edit" do
-        if !logged_in? 
+    # read
+    get "/tweets/:id" do 
+        if logged_in?
+            @tweet = Tweet.find_by(user_id: current_user.id)
+            erb :"/tweets/show_tweet"
+        else 
             redirect "/login"
-        else
-           
-            if tweet = current_user.tweets.find_by(params(:id))
-                erb :"/tweets/edit_tweet"
-            else  
-                redirect "/tweets"
-            end 
         end
     end 
-    
+
+    # Update
+    get "/tweets/:id/edit" do
+        # if tweet.user_id doesn't match current_user.id
+        # redirect to /tweets
+        tweet = Tweet.find_by_id(params[:id])
+        if logged_in? && current_user.id == tweet.user_id 
+            redirect "/tweets/#{tweet.user_id}"
+        else 
+            redirect "/tweets"
+        end 
+    end 
+
     patch "/tweets/:id" do 
+        @tweet = Tweet.find_by_id(params[:id])
+        redirect "/tweets/#{@tweet.id}"
+    end 
+
+
+
+    
+    delete "/tweets/:id" do 
         @user = User.find_by(username: params[:username])
         @tweet = Tweet.create(:content => params[:content])
-        redirect "/show_tweet/#{@tweet.id}"
+        redirect "/tweets/#{@tweet.id}"
     end 
 
 end
