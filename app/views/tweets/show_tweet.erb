@@ -7,9 +7,6 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" name="delete" value="Delete Tweet">
 </form> 
-<form action="/tweets/<%=@tweet.id%>" method="POST">
-    <input type="hidden" name="_method" value="PATCH">
-    <input type="submit" name="edit" value="Edit Tweet">
-</form>
-
-<div>Go back to <a href="/tweets">Tweets</a>  </div>
+<div><%=@tweet.content%></div>
+<a href="/tweets/<%=@tweet.id%>/edit">Edit Tweet</a>
+<div>Go back to <a href="/tweets/<%=@tweet.id%>">Tweets</a>  </div>
